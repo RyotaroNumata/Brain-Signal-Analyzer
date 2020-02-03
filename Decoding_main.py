@@ -17,20 +17,20 @@ from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 from mpl_toolkits.axes_grid1.colorbar import colorbar
 import sys
 
-#### Check arges ##
-#args = sys.argv
-#assert (len(args) > 2), "Must set analysis parameter 'finger id' and 'suject number' !!!"
-#
-### import analysis config file
-#config = import_config()
-### set analysis finger
-#finger_id = int(args[1])-1
-### set subject number
-#subj_num =int(args[2])-1
+### Check arges ##
+args = sys.argv
+assert (len(args) > 2), "Must set analysis parameter 'finger id' and 'suject number' !!!"
 
+## import analysis config file
 config = import_config()
-finger_id=1
-subj_num=1
+## set analysis finger
+finger_id = int(args[1])-1
+## set subject number
+subj_num =int(args[2])-1
+
+#config = import_config()
+#finger_id=1
+#subj_num=1
 
 
 if __name__ == "__main__": 
