@@ -1,0 +1,28 @@
+{
+    "setting":{
+        "srate": 1000,
+        "dwn_rate": 2,
+        "filter_order": 4,
+        "epoch_range": [-1.0, 1.0],
+        "baseline": [-1.0, -0.2],
+        "reference_type": "Average",
+        "data_path": "./data/BCI4/",
+        "event_id": 256,
+        "filter_band": [0.5,499.9]
+            },
+    "feature_freqs":{
+            "delta": [1.5, 4.0], 
+            "theta": [4.0, 8.0], 
+            "alpha": [8.0, 12.0], 
+            "beta": [13.0, 31.0],  
+            "gamma": [32.0, 49.0], 
+            "high-gamma1": [50.0, 99.9], 
+            "high-gamma2": [100.0, 149.9], 
+            "high-gamma3": [150.0, 199.9],
+            "high-gamma4": [200.0, 249.9]
+            }, 
+    "Decoding":{
+        "sliding_step":7,
+        "sample_points":30
+        }            
+}
