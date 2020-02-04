@@ -8,7 +8,8 @@
         "reference_type": "Average",
         "data_path": "./data/BCI4/",
         "event_id": 256,
-        "filter_band": [0.5,499.9]
+        "filter_band": [0.5,499.9],
+        "smooth_param": [200, 200]
             },
     "feature_freqs":{
             "delta": [1.5, 4.0], 
