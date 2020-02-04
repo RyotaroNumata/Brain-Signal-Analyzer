@@ -40,7 +40,7 @@ if __name__ == "__main__":
     data = fio.loadBCI4()[subj_num]
     
     ##### Preprocess digit movement signal ######
-    resampled_dg = prep.Rectify(prep.downsample_sig(data['train_dg']), freqs=[1,200], btype='band', gaussian_pram=[200,200])
+    resampled_dg = prep.Rectify(prep.downsample_sig(data['train_dg']), freqs=[1,200], btype='band', gaussian_pram=config['setting']['smooth_param'])
     
     ##### Preprocess ECoG signals ######
     resampled_ecog = prep.downsample_sig(data['train_data'])
@@ -64,13 +64,10 @@ if __name__ == "__main__":
     for i in range(len(config['feature_freqs'].keys())):
         F_data[i,:,:,:] = uti.makeEpochs(F_value[:,:,i].T, event, ch_info=chan, 
                reference_type='Average').get_data()[:,0:-1,:]
-    
-#    F_data = F_dataR
+
     Ep_dg = ep_dg.transpose(0,2,1)[:,:,finger_id]
-    
     F_data = np.reshape(F_data.transpose(1,2,0,3),[F_data.shape[1],
             F_data.shape[0]*F_data.shape[2], F_data.shape[3]])
-    
     
     ##### Set training and test dataset for decoding analysis.######
     data_len= int(F_data.shape[0]*4/5)
@@ -85,12 +82,13 @@ if __name__ == "__main__":
     weight = Decoder.Fit(train_ecog.transpose(1,0,2), train_dg, key='PLS', PLS_components=1)
     reconst_dg = Decoder.runReconst(test_ecog.transpose(1,0,2), weight =weight)
     
-    ##### Evaluation and PLot #####
+    ##### Reconstructiuon score evaluation #####
     reconst_dg = uti.Zscore(reconst_dg)
     test_dg = uti.Zscore(test_dg)
     pad_len = int(config['Decoding']['sliding_step'] *config['Decoding']['sample_points'])
     cc = np.round(np.corrcoef(reconst_dg[pad_len:-1],test_dg[pad_len:-1])[0,1],3)
-
+    
+    ##### calculate feature score ######
     freqs= [config['feature_freqs'][list(config['feature_freqs'].keys())[i]] for i in range(len(config['feature_freqs'].keys()))]
     spacial_weight = np.reshape(weight[0:-1],[len(chan),len(config['feature_freqs'].keys())])
     freqs_domein= np.mean(spacial_weight,axis=0)
