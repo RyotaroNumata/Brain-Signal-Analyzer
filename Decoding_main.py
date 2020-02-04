@@ -28,11 +28,6 @@ finger_id = int(args[1])-1
 ## set subject number
 subj_num =int(args[2])-1
 
-#config = import_config()
-#finger_id=1
-#subj_num=1
-
-
 if __name__ == "__main__": 
     
     ###### generate instances ######    
