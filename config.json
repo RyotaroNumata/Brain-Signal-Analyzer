@@ -1,6 +1,6 @@
 {
     "setting":{
-        "srate": 1000,
+        "srate":1000,
         "dwn_rate": 2,
         "filter_order": 4,
         "epoch_range": [-1.0, 1.0],
@@ -9,7 +9,7 @@
         "data_path": "./data/BCI4/",
         "event_id": 256,
         "filter_band": [0.5,499.9],
-        "smooth_param": [200, 200]
+        "smooth4BCI4": [50,50]
             },
     "feature_freqs":{
             "delta": [1.5, 4.0], 
@@ -23,7 +23,11 @@
             "high-gamma4": [200.0, 249.9]
             }, 
     "Decoding":{
-        "sliding_step":7,
-        "sample_points":30
+        "sliding_step":2,
+        "sample_points":10
+        },
+    "Subject":{
+        "subject_no":1,
+        "analysis_finger":5
         }            
 }
