@@ -14,6 +14,7 @@ class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.pack()
+        self.master = master
         
         self.config = import_config()
         self.create_widgets()
@@ -94,16 +95,53 @@ class Application(tk.Frame):
         self.update["command"] = self.Update
         self.update.pack(side="top")
 
+        self.update = tk.Button(self)
+        self.update["text"] = "test"
+        self.update["command"] = self.freq_window
+        self.update.pack(side="top")
+        
         self.quit = tk.Button(self, text="QUIT", fg="red", command=root.destroy)
         self.quit.pack(side="bottom")
 
-    def create_textbox(self, data):
-
-        self.textbox = tk.Entry()
+    def create_textbox(self, data, window=None):
+        
+        if window is None:
+            self.textbox = tk.Entry()
+        else:
+            self.textbox = tk.Entry(window)
         self.textbox.insert(tk.END, data)
         self.textbox.pack(side="bottom")
         
         return self.textbox
+
+    def freq_window(self):
+        self.window_param =[]
+        self.window = tk.Toplevel()
+        add_param = tk.Button(self.window)
+        add_param["text"] = "+"
+        add_param["command"] = self.addlabel
+        add_param.pack(side="top")
+
+        add_param = tk.Button(self.window)
+        add_param["text"] = "-"
+        add_param["command"] = self.remlabel
+        add_param.pack(side="top")
+        
+        self.quit = tk.Button(self.window, text="QUIT", fg="red", command=self.window.destroy)
+        self.quit.pack(side="bottom")
+
+    def addlabel(self):
+        print('add')
+        ret=self.create_textbox('test',self.window)
+        self.window_param.append(ret)
+
+    def remlabel(self):
+        print('rem')
+#        ret=self.create_textbox('test',self.window)
+        if len(self.window_param)>0:
+            for i in range(len(self.window_param)):
+                self.window_param[i].destroy()
+#                self.window_param[i].pack(side="bottom")
 
     def runDecoding(self):
         self.Update()
@@ -136,7 +174,7 @@ class Application(tk.Frame):
 #        print(self.config)
 
 root = tk.Tk()
-root.title('ecoding anlysis')
+root.title('Decoding anlysis')
 root.geometry("400x750")
 app = Application(master=root)
 app.mainloop()

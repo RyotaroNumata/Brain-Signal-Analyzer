@@ -41,9 +41,11 @@ def mainPipeline(config):
     
     ##### Preprocess digit movement signal ######
     resampled_dg = prep.Rectify(prep.downsample_sig(data['train_dg']), freqs=[1,200], btype='band', gaussian_pram=config['setting']['smooth4BCI4'])
-    
+
     ##### Preprocess ECoG signals ######
     resampled_ecog = prep.downsample_sig(data['train_data'])
+    if resampled_ecog.shape[-1] < 64:
+        resampled_ecog = np.append(resampled_ecog, np.zeros([resampled_ecog.shape[0],2]),axis=1)
     F_value = prep.Feature_Ext_filt(resampled_ecog, standardization=True, smoothing=True)
     
     ##### Set channel labels #####
@@ -119,7 +121,7 @@ def mainPipeline(config):
     ax1.set_ylabel('Contribution ratio [%]')
     ax1.set_xlabel('Frequency [Hz]')
     ax1.set_xticks(np.arange(len(freqs)))
-    ax1.set_xticklabels(int(freqs), rotation=60, fontsize=8)
+    ax1.set_xticklabels(freqs, rotation=60, fontsize=8)
 
     ax2 = plt.subplot(gs[1,1]) 
     im=ax2.pcolormesh(reshape_score,cmap='jet')
