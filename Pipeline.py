@@ -44,7 +44,7 @@ def mainPipeline(config):
 
     ##### Preprocess ECoG signals ######
     resampled_ecog = prep.downsample_sig(data['train_data'])
-    if resampled_ecog.shape[-1] < 64:
+    if (resampled_ecog.shape[-1] < 64) and (resampled_ecog.shape[-1] >48):
         resampled_ecog = np.append(resampled_ecog, np.zeros([resampled_ecog.shape[0],2]),axis=1)
     F_value = prep.Feature_Ext_filt(resampled_ecog, standardization=True, smoothing=True)
     

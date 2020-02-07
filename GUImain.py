@@ -86,17 +86,17 @@ class Application(tk.Frame):
     def create_widgets(self):
 
         self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "run analysis"
+        self.hi_there["text"] = "Run analysis"
         self.hi_there["command"] = self.runDecoding
         self.hi_there.pack(side="top")
         
-        self.update = tk.Button(self)
-        self.update["text"] = "Update"
-        self.update["command"] = self.Update
-        self.update.pack(side="top")
+#        self.update = tk.Button(self)
+#        self.update["text"] = "Update"
+#        self.update["command"] = self.Update
+#        self.update.pack(side="top")
 
         self.update = tk.Button(self)
-        self.update["text"] = "test"
+        self.update["text"] = "select feature"
         self.update["command"] = self.freq_window
         self.update.pack(side="top")
         
@@ -107,42 +107,72 @@ class Application(tk.Frame):
         
         if window is None:
             self.textbox = tk.Entry()
+            self.textbox.insert(tk.END, data)
+            self.textbox.pack(side=tk.BOTTOM)
         else:
             self.textbox = tk.Entry(window)
-        self.textbox.insert(tk.END, data)
-        self.textbox.pack(side="bottom")
+            label = tk.StringVar()
+            label.set('Feature freqs: ')
+            label = tk.Label(window, textvariable=label)
+#            label.grid(row=0, column=0, padx=5, pady=5)
+            self.freqslabel.append(label)
+#            label["anchor"] = "s"
+            label.pack(padx=5, pady=5, anchor=tk.W)
+            self.textbox.insert(tk.END, data)
+            self.textbox.pack(padx=5, pady=5, anchor=tk.W)
+#            self.textbox.grid(row=0, column=1, padx=5, pady=5)
         
         return self.textbox
 
     def freq_window(self):
         self.window_param =[]
+        self.freqslabel=[]
         self.window = tk.Toplevel()
+#        self.window.geometry("400x400")
+        
         add_param = tk.Button(self.window)
         add_param["text"] = "+"
         add_param["command"] = self.addlabel
         add_param.pack(side="top")
-
         add_param = tk.Button(self.window)
         add_param["text"] = "-"
         add_param["command"] = self.remlabel
         add_param.pack(side="top")
-        
-        self.quit = tk.Button(self.window, text="QUIT", fg="red", command=self.window.destroy)
-        self.quit.pack(side="bottom")
-
+        add_param = tk.Button(self.window)
+        add_param["text"] = "save"
+        add_param["command"] = self.clslabel
+        add_param.pack(side="top")
+#        self.quit = tk.Button(self.window, text="QUIT", fg="red", command=self.window.destroy)
+#        self.quit.pack(side="bottom")
     def addlabel(self):
-        print('add')
-        ret=self.create_textbox('test',self.window)
+#        print('add')
+        ret=self.create_textbox('[1.5, 4.0]',self.window)
         self.window_param.append(ret)
-
+#        label = tk.Label(text='test')
+#        label.place(x=30, y=70)
+        print('add: ', len(self.window_param))
+        
     def remlabel(self):
-        print('rem')
-#        ret=self.create_textbox('test',self.window)
         if len(self.window_param)>0:
-            for i in range(len(self.window_param)):
-                self.window_param[i].destroy()
-#                self.window_param[i].pack(side="bottom")
-
+                self.window_param[-1].destroy()
+                del self.window_param[-1]
+                self.freqslabel[-1].pack_forget()
+                del self.freqslabel[-1]
+#            for i in range(len(self.window_param)):
+#                self.window_param[-1].destroy()
+        print('rm: ', len(self.window_param), len(self.freqslabel))
+        
+    def clslabel(self):
+        print('save frequency parameter')
+        freqs={}
+        for i in range(len(self.window_param)):
+            freqs[str(i+1)] = self.window_param[i].get()
+        
+        self.config['feature_freqs'] = freqs
+        print(self.config)
+        self.window_param =[]
+        self.window.destroy()
+            
     def runDecoding(self):
         self.Update()
         mainPipeline(self.config)
