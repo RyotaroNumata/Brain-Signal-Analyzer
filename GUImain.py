@@ -27,6 +27,7 @@ class Application(tk.Frame):
         self.keys2 = []
 #        self.type_holder2 = []
         keys2= list(self.config['feature_freqs'].keys())
+        self.test = keys2
         self.tex_instances2 = self.config['feature_freqs'].copy()
 
         self.keys3 = []
@@ -63,12 +64,12 @@ class Application(tk.Frame):
                 self.type_holder.append('str')
         
         for k in range(len(list(self.config['feature_freqs'].keys()))):
-                ret=self.create_textbox(self.config['feature_freqs'][keys2[k]][0])
+#                ret=self.create_textbox(self.config['feature_freqs'][keys2[k]][0])
                 
-                self.tex_instances2[keys2[k]+'_s'] = ret
+#                self.tex_instances2[keys2[k]+'_s'] = ret
                 self.keys2.append(keys2[k]+'_s')
-                ret=self.create_textbox(self.config['feature_freqs'][keys2[k]][1])
-                self.tex_instances2[keys2[k]+'_e'] = ret
+#                ret=self.create_textbox(self.config['feature_freqs'][keys2[k]][1])
+#                self.tex_instances2[keys2[k]+'_e'] = ret
                 self.keys2.append(keys2[k]+'_e')
 
         for k in range(len(list(self.config['Decoding'].keys()))):
@@ -127,6 +128,7 @@ class Application(tk.Frame):
     def freq_window(self):
         self.window_param =[]
         self.freqslabel=[]
+        self.count = 0
         self.window = tk.Toplevel()
 #        self.window.geometry("400x400")
         
@@ -145,12 +147,19 @@ class Application(tk.Frame):
 #        self.quit = tk.Button(self.window, text="QUIT", fg="red", command=self.window.destroy)
 #        self.quit.pack(side="bottom")
     def addlabel(self):
-#        print('add')
-        ret=self.create_textbox('[1.5, 4.0]',self.window)
-        self.window_param.append(ret)
+        print(len(list(self.config['feature_freqs'].keys())), self.count)
+        if self.count <= len(self.test):
+                if self.count < len(list(self.config['feature_freqs'].keys())):
+                        ret=self.create_textbox(self.test[self.count]+','+str(self.config['feature_freqs'][self.test[self.count]][0])+','+
+									str(self.config['feature_freqs'][self.test[self.count]][1]), self.window)
+                else:
+                        print('aaa')
+                        ret=self.create_textbox('name, 0, 1', self.window)				
+                self.window_param.append(ret)
 #        label = tk.Label(text='test')
 #        label.place(x=30, y=70)
-        print('add: ', len(self.window_param))
+                self.count = self.count +1
+#                print('add: ', len(self.window_param))
         
     def remlabel(self):
         if len(self.window_param)>0:
@@ -158,19 +167,24 @@ class Application(tk.Frame):
                 del self.window_param[-1]
                 self.freqslabel[-1].pack_forget()
                 del self.freqslabel[-1]
+                self.count = self.count -1
 #            for i in range(len(self.window_param)):
 #                self.window_param[-1].destroy()
         print('rm: ', len(self.window_param), len(self.freqslabel))
         
     def clslabel(self):
         print('save frequency parameter')
+#        self.test = []
         freqs={}
         for i in range(len(self.window_param)):
-            freqs[str(i+1)] = self.window_param[i].get()
-        
+            band_freqs = self.window_param[i].get().split(",")
+            freqs[band_freqs[0]] = [float(band_freqs[1]), float(band_freqs[2])]
+#            self.test.append(str(i+1))
+                
         self.config['feature_freqs'] = freqs
-        print(self.config)
+#        print(self.config['feature_freqs'])
         self.window_param =[]
+        self.conunt = 0
         self.window.destroy()
             
     def runDecoding(self):
@@ -189,11 +203,11 @@ class Application(tk.Frame):
         self.config['setting']['filter_band'] = [float(self.config['setting']['filter_band_s']), float(self.config['setting']['filter_band_e'])]
         self.config['setting']['baseline'] = [float(self.config['setting']['baseline_s']), float(self.config['setting']['baseline_e'])]
 
-        freqs=list(self.config['feature_freqs'].keys())
-        n=0
-        for ins in range(len(freqs)):
-            self.config['feature_freqs'][freqs[ins]] = [float(self.tex_instances2[self.keys2[n]].get()), float(self.tex_instances2[self.keys2[n+1]].get())]
-            n=n+2
+#        freqs=list(self.config['feature_freqs'].keys())
+#        n=0
+#        for ins in range(len(freqs)):
+#            self.config['feature_freqs'][freqs[ins]] = [float(self.tex_instances2[self.keys2[n]].get()), float(self.tex_instances2[self.keys2[n+1]].get())]
+#            n=n+2
         
         for ins in range(len(self.keys3)):
             self.config['Decoding'][self.keys3[ins]] = int(float(self.tex_instances3[self.keys3[ins]].get()))
@@ -205,6 +219,6 @@ class Application(tk.Frame):
 
 root = tk.Tk()
 root.title('Decoding anlysis')
-root.geometry("400x750")
+root.geometry("400x400")
 app = Application(master=root)
 app.mainloop()
