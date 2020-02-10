@@ -40,7 +40,8 @@ def mainPipeline(config):
     data = fio.loadBCI4()[subj_num]
     
     ##### Preprocess digit movement signal ######
-    resampled_dg = prep.Rectify(prep.downsample_sig(data['train_dg']), freqs=[1,200], btype='band', gaussian_pram=config['setting']['smooth4BCI4'])
+    resampled_dg = prep.Rectify(prep.downsample_sig(data['train_dg']), freqs=config['setting']['Rectify_band'], 
+                                btype='band', gaussian_pram=config['setting']['smooth4BCI4'])
 
     ##### Preprocess ECoG signals ######
     resampled_ecog = prep.downsample_sig(data['train_data'])

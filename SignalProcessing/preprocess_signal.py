@@ -42,6 +42,7 @@ class Prep_signal:
         self.baseline = config['setting']['baseline']
         self.filter_band = config['setting']['filter_band']
         self.feature_freqs = config['feature_freqs']
+        self.smooth = config['setting']['smoothing']
         
         self.srate = self.srate/float(self.dwn_rate)
     
@@ -168,7 +169,7 @@ class Prep_signal:
 
              if smoothing == True:
                  print("### Processing smoothing ###")
-                 low = 3 / (self.srate/2.)        
+                 low = self.smooth / (self.srate/2.)        
                  b_filt, a_filt = signal.iirfilter(self.filter_order, low, btype = 'lowpass')
                  X = signal.filtfilt(b_filt, a_filt, X, axis=0)
   

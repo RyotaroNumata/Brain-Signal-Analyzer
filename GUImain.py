@@ -176,6 +176,7 @@ class Application(tk.Frame):
             
     def runDecoding(self):
         self.Update()
+#        print(self.config)
         mainPipeline(self.config)
         
     def Update(self):
@@ -189,6 +190,8 @@ class Application(tk.Frame):
         self.config['setting']['epoch_range'] = [float(self.config['setting']['epoch_range_s']), float(self.config['setting']['epoch_range_e'])]
         self.config['setting']['filter_band'] = [float(self.config['setting']['filter_band_s']), float(self.config['setting']['filter_band_e'])]
         self.config['setting']['baseline'] = [float(self.config['setting']['baseline_s']), float(self.config['setting']['baseline_e'])]
+        self.config['setting']['Rectify_band'] = [float(self.config['setting']['Rectify_band_s']), float(self.config['setting']['Rectify_band_e'])]
+        self.config['setting']['smooth4BCI4'] = [float(self.config['setting']['smooth4BCI4_s']), float(self.config['setting']['smooth4BCI4_e'])]
 
         
         for ins in range(len(self.keys3)):
@@ -199,6 +202,6 @@ class Application(tk.Frame):
         
 root = tk.Tk()
 root.title('Decoding anlysis')
-root.geometry("400x400")
+root.geometry("400x700")
 app = Application(master=root)
 app.mainloop()

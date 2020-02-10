@@ -18,15 +18,15 @@ from mpl_toolkits.axes_grid1.colorbar import colorbar
 import sys
 
 ### Check arges ##
-args = sys.argv
-assert (len(args) > 2), "Must set analysis parameter 'finger id' and 'suject number' !!!"
+#args = sys.argv
+#assert (len(args) > 2), "Must set analysis parameter 'finger id' and 'suject number' !!!"
 
 ## import analysis config file
 config = import_config()
 ## set analysis finger
-finger_id = int(args[1])-1
+finger_id = 4
 ## set subject number
-subj_num =int(args[2])-1
+subj_num =0
 
 if __name__ == "__main__": 
     
@@ -40,12 +40,12 @@ if __name__ == "__main__":
     data = fio.loadBCI4()[subj_num]
     
     ##### Preprocess digit movement signal ######
-    resampled_dg = prep.Rectify(prep.downsample_sig(data['train_dg']), freqs=[1,200], btype='band', gaussian_pram=config['setting']['smooth_param'])
+    resampled_dg = prep.Rectify(prep.downsample_sig(data['train_dg']), freqs=[1,10], btype='band', gaussian_pram=[200,500])
     
     ##### Preprocess ECoG signals ######
     resampled_ecog = prep.downsample_sig(data['train_data'])
     F_value = prep.Feature_Ext_filt(resampled_ecog, standardization=True, smoothing=True)
-    if resampled_ecog.shape[-1] < 64:
+    if (resampled_ecog.shape[-1] < 64) and (resampled_ecog.shape[-1] >48):
         resampled_ecog = np.append(resampled_ecog, np.zeros([resampled_ecog.shape[0],2]),axis=1)
     
     ##### Set channel labels #####

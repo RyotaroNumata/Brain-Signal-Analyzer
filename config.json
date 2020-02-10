@@ -3,12 +3,14 @@
         "srate":1000,
         "dwn_rate": 2,
         "filter_order": 4,
+        "smoothing": 2,
         "epoch_range": [-1.0, 1.0],
         "baseline": [-1.0, -0.2],
         "reference_type": "Average",
         "data_path": "./data/BCI4/",
         "event_id": 256,
         "filter_band": [0.5,499.9],
+        "Rectify_band": [1,249],
         "smooth4BCI4": [50,50]
             },
     "feature_freqs":{
