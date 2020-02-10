@@ -123,6 +123,7 @@ class Application(tk.Frame):
         self.freqslabel=[]
         self.count = 0
         self.window = tk.Toplevel()
+        self.window.title('Entry features')
 
         add_param = tk.Button(self.window)
         add_param["text"] = "+"
@@ -138,26 +139,27 @@ class Application(tk.Frame):
         add_param.pack(side="top")
 
     def addlabel(self):
-        print(len(list(self.config['feature_freqs'].keys())), self.count)
+#        print(len(list(self.config['feature_freqs'].keys())), self.count)
         if self.count <= len(self.test):
                 if self.count < len(list(self.config['feature_freqs'].keys())):
                         ret=self.create_textbox(self.test[self.count]+','+str(self.config['feature_freqs'][self.test[self.count]][0])+','+
 									str(self.config['feature_freqs'][self.test[self.count]][1]), self.window)
                 else:
-                        print('aaa')
+                        print('add new feature')
                         ret=self.create_textbox('name, 0, 1', self.window)				
                 self.window_param.append(ret)
                 self.count = self.count +1
         
     def remlabel(self):
         if len(self.window_param)>0:
+                print('remove feature')
                 self.window_param[-1].destroy()
                 del self.window_param[-1]
                 self.freqslabel[-1].pack_forget()
                 del self.freqslabel[-1]
                 self.count = self.count -1
 
-        print('rm: ', len(self.window_param), len(self.freqslabel))
+#        print('rm: ', len(self.window_param), len(self.freqslabel))
         
     def clslabel(self):
         print('save frequency parameter')
@@ -202,6 +204,6 @@ class Application(tk.Frame):
         
 root = tk.Tk()
 root.title('Decoding anlysis')
-root.geometry("400x700")
+root.geometry("400x900")
 app = Application(master=root)
 app.mainloop()

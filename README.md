@@ -1,7 +1,5 @@
 # Brain-kinematics-decoder
-
-Overview
-test
+https://user-images.githubusercontent.com/60598478/74128402-70010180-4c20-11ea-825c-846e36d016f9.gif
 
 ## Description
 
