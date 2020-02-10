@@ -16,7 +16,7 @@
 
 ## Licence
 
-[MIT](https://github.com/RyotaroNumata/Brain-kinematics-decoder/blob/master/LICENSE)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/RyotaroNumata/Brain-kinematics-decoder/blob/master/LICENSE)
 
 ## Author
 
