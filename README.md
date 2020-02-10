@@ -13,12 +13,13 @@ The BCI competion Ⅳ dataset is used for this Demo.
 Brain-kinematics-decoder has simple GUI for analysis.<br>
 So, you can easy to start Decoding analysis.
 
+#
 ## Installation
 ### Requirements
 - Linux and Windows (MacOS X is not officially supported)
 - Python 3.7
 
-## Getting Start
+### Install Brain-Kinematics-Decoder
 a. Create a conda virtual environment and activate it.
 
 ```shell
@@ -38,11 +39,34 @@ c. Clone the Brain-kinematics-decoder repository.
 git clone https://github.com/RyotaroNumata/Brain-kinematics-decoder.git
 cd Brain-kinematics-decoder
 ```
+d. Register [BCI competition Ⅳ](http://www.bbci.de/competition/iv/) and Download Data sets 4.
+
+### prepare datasets <br>
+After download BCI competition Ⅳ dataset no.4, you need to create directories for storing data as follows.
+```
+Brain-kinematics-decoder
+├── FileIO
+├── Model
+├── SignalProcessing
+├── Utils
+└── data
+     └── BCI4
+          └──subject_ECoG_data
+```
+## Getting Start
+If you want to run analysis with GUI support, should run this script in your terminal or command prompt.
+```
+python GUImain.py
+```
+also, you can use Brain-kinematics-decoder on your IDE. If so, run this code as follows.
+```
+python Decodig_main.py
+```
 
 ## Licence
 
 [MIT](https://github.com/RyotaroNumata/Brain-kinematics-decoder/blob/master/LICENSE)
 
 ## Author
-
-[RyotaroNumata](https://github.com/RyotaroNumata)
+[RyotaroNumata](https://github.com/RyotaroNumata)<br>
+Please feel free to contact me if you have any questions to the repo.
