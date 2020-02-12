@@ -104,3 +104,6 @@ venv.bak/
 
 # matfile
 *.mat
+
+# testfile
+Decoding_main_test.py

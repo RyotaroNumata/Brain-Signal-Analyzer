@@ -14,7 +14,7 @@ from scipy.stats import norm
 from mne.time_frequency import tfr_array_stockwell
 import mne
 from sklearn.preprocessing import StandardScaler
-
+import mne.time_frequency.tfr as tfr
 
 
 class Prep_signal:
@@ -46,8 +46,8 @@ class Prep_signal:
         
         self.srate = self.srate/float(self.dwn_rate)
     
-        self.time = np.arange(self.epoch_range[0],self.epoch_range[1],1/(self.srate /self.dwn_rate))
-        
+        self.time = np.arange(self.epoch_range[0],self.epoch_range[1]+1/(self.srate),1/(self.srate))
+
     def downsample_sig(self,x):
         """downsample the data.
 
@@ -235,5 +235,48 @@ class Prep_signal:
         trigger[trigger > 0] = self.event_id
         
         return trigger
+
+    def make_wavalet(self, freqs_ranage=[1,250], interval=5):
+        
+        freqs = np.arange(freqs_ranage[0], freqs_ranage[1], interval)
+        
+        self.wavelet = tfr.morlet(self.srate, freqs, n_cycles=10.0)
+        
+        inlet =[]
+        for w in range(len(self.wavelet)):
+            inlet.append(self.wavelet[w].real)
+        
+        return self.wavelet
+
+
+    
+    def S_transform(self,epoch_data, baseline_corr=True, n_jobs=-1):
+        """Applay Stockwell-transform to epoch_data.
+        
+        Parameters
+        ----------
+        epoch_data : {array-like, sample × index}.
+            finger flection data. 
+        
+        baseline_corr: bool
+            if True, baseline correction is used
+        
+        n_jobs: int 
+            n_jobs is parallel computing parameter which how many core will be used for analysis.
+            if enter n_job=-1, the system will use all available threads.
+        
+        Returns
+        ----------
+        st_power: time-frequency power
+        itc: inter trial coherence
+        freqs: frequencies range was used for analysis.
+        """        
+        
+        st_power, itc, freqs = tfr_array_stockwell(epoch_data, self.srate, fmin=self.filter_band[0], 
+                                                   fmax=self.filter_band[1], width=.5, return_itc=True, n_jobs=n_jobs) 
+        if baseline_corr == True:
+            mne.baseline.rescale(st_power, self.time, self.baseline , mode='logratio', copy=False)
+        
+        return st_power, itc, freqs
     
     

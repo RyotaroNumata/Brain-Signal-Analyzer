@@ -17,10 +17,6 @@ from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 from mpl_toolkits.axes_grid1.colorbar import colorbar
 import sys
 
-### Check arges ##
-#args = sys.argv
-#assert (len(args) > 2), "Must set analysis parameter 'finger id' and 'suject number' !!!"
-
 ## import analysis config file
 config = import_config()
 ## set analysis finger

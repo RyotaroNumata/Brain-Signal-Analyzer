@@ -50,7 +50,7 @@ class Utilfunc():
         self.reference_type = config['setting']['reference_type']
         self.epoch_range = config['setting']['epoch_range']
         self.baseline = config['setting']['baseline']
-   
+        self.srate = self.srate/float(self.dwn_rate)
     def Zscore(self, X):
         """Standardize the data with mean and variance.
 

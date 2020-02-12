@@ -9,6 +9,8 @@ Created on Tue Feb  4 11:46:02 2020
 import tkinter as tk
 from Utils.utils import import_config
 from Pipeline import mainPipeline
+from EvReAn import EventRelated_BCI4
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -94,15 +96,15 @@ class Application(tk.Frame):
         self.update["command"] = self.freq_window
         self.update.pack(side="top")
         
-        self.quit = tk.Button(self, text="QUIT", fg="red", command=root.destroy)
+        self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.pack(side="bottom")
 
     def create_textbox(self, data, window=None,label='TEST'):
         
         if window is None:
-            self.textbox = tk.Entry()
+            self.textbox = tk.Entry(self.master)
             self.textbox.insert(tk.END, data)
-            label = tk.Label(text=label)
+            label = tk.Label(self.master, text=label)
             label.pack(padx=100, pady=1, anchor=tk.W)
             self.textbox.pack(padx=100, pady=1, anchor=tk.W)
         else:
@@ -202,8 +204,95 @@ class Application(tk.Frame):
         for ins in range(len(self.keys4)):
             self.config['Subject'][self.keys4[ins]] = int(float(self.tex_instances4[self.keys4[ins]].get()))
         
+
+class Index(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.pack()
+        self.Master = master
+
+        self.hi_there = tk.Button(self)
+        self.hi_there["text"] = "Data converter"
+        self.hi_there["command"] = self.converter
+        self.hi_there.pack(side="top")
+
+        self.hi_there = tk.Button(self)
+        self.hi_there["text"] = "Event related"
+        self.hi_there["command"] = self.erp
+        self.hi_there.pack(side="top")
+
+        self.hi_there = tk.Button(self)
+        self.hi_there["text"] = "Time-Frequency"
+        self.hi_there["command"] = self.tfa
+        self.hi_there.pack(side="top")
+
+        self.hi_there = tk.Button(self)
+        self.hi_there["text"] = "Decoding analysis"
+        self.hi_there["command"] = self.decoding
+        self.hi_there.pack(side="top")
+        self.quit = tk.Button(self, text="QUIT", fg="red", command=self.Master.destroy)
+        self.quit.pack(side="bottom")
+        
+    def decoding(self):
+        gui = tk.Tk()
+        gui.title('Decoding anlysis')
+        gui.geometry("400x800")
+        Application(master=gui)
+
+    def tfa(self):
+        gui = tk.Tk()
+        gui.title('Decoding anlysis')
+        gui.geometry("400x800")
+        Application(master=gui)
+        
+    def erp(self):
+        gui = tk.Tk()
+        gui.title('Event related anlysis')
+        gui.geometry("800x700")
+        Subframe(gui)
+
+
+    def converter(self):
+        gui = tk.Tk()
+        gui.title('Decoding anlysis')
+        gui.geometry("400x800")
+        Application(master=gui)
+
+class Subframe(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.pack()
+        self.master = master
+        
+        self.config = import_config()
+        canvas = tk.Canvas(self.master, width=500, height=1, bg="white")
+#        canvas.pack()
+        fig, fig2 = EventRelated_BCI4(self.config)
+        
+        canvas = FigureCanvasTkAgg(fig, self.master)
+        canvas.get_tk_widget().pack(side=tk.LEFT, expand=0)
+        canvas._tkcanvas.pack(side=tk.LEFT, expand=0)
+        canvas.draw()
+
+        canvas = tk.Canvas(self.master, width=100, height=100, bg="green")
+        canvas.pack()
+        self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
+        self.quit.pack(side="bottom")
+        
 root = tk.Tk()
-root.title('Decoding anlysis')
-root.geometry("400x900")
-app = Application(master=root)
+root.title('BrainSignalAnalyzer')
+root.geometry("400x300")
+app = Index(master=root)
+#app = Application(master=root)
 app.mainloop()
+
+
+
+
+
+
+
+
+
+
+

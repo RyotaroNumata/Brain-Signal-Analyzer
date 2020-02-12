@@ -16,10 +16,6 @@ from FileIO.fileio import FileIO
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 from mpl_toolkits.axes_grid1.colorbar import colorbar
 
-#config = import_config()
-#finger_id=1
-#subj_num=1
-
 
 def mainPipeline(config):
     
