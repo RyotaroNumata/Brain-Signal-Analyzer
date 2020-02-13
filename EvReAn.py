@@ -82,5 +82,5 @@ def EventRelated_BCI4(config):
 #        plt.axvline(0,ls='--', lw=2.)
 #        plt.title('ch_'+str(i+1))
 
-    return fig,[st_power, s_freqs]
+    return fig,[st_power, s_freqs, time]
     
