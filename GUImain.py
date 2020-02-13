@@ -11,6 +11,7 @@ from Utils.utils import import_config
 from Pipeline import mainPipeline
 from EvReAn import EventRelated_BCI4
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+import matplotlib.pyplot as plt
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -141,7 +142,7 @@ class Application(tk.Frame):
         add_param.pack(side="top")
 
     def addlabel(self):
-#        print(len(list(self.config['feature_freqs'].keys())), self.count)
+
         if self.count <= len(self.test):
                 if self.count < len(list(self.config['feature_freqs'].keys())):
                         ret=self.create_textbox(self.test[self.count]+','+str(self.config['feature_freqs'][self.test[self.count]][0])+','+
@@ -161,26 +162,21 @@ class Application(tk.Frame):
                 del self.freqslabel[-1]
                 self.count = self.count -1
 
-#        print('rm: ', len(self.window_param), len(self.freqslabel))
-        
     def clslabel(self):
         print('save frequency parameter')
-#        self.test = []
+
         freqs={}
         for i in range(len(self.window_param)):
             band_freqs = self.window_param[i].get().split(",")
             freqs[band_freqs[0]] = [float(band_freqs[1]), float(band_freqs[2])]
-#            self.test.append(str(i+1))
                 
         self.config['feature_freqs'] = freqs
-#        print(self.config['feature_freqs'])
         self.window_param =[]
         self.conunt = 0
         self.window.destroy()
             
     def runDecoding(self):
         self.Update()
-#        print(self.config)
         mainPipeline(self.config)
         
     def Update(self):
@@ -210,11 +206,6 @@ class Index(tk.Frame):
         super().__init__(master)
         self.pack()
         self.Master = master
-
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Data converter"
-        self.hi_there["command"] = self.converter
-        self.hi_there.pack(side="top")
 
         self.hi_there = tk.Button(self)
         self.hi_there["text"] = "Event related"
@@ -248,37 +239,83 @@ class Index(tk.Frame):
     def erp(self):
         gui = tk.Tk()
         gui.title('Event related anlysis')
-        gui.geometry("800x700")
+        gui.geometry("1000x700")
         Subframe(gui)
 
-
-    def converter(self):
-        gui = tk.Tk()
-        gui.title('Decoding anlysis')
-        gui.geometry("400x800")
-        Application(master=gui)
-
 class Subframe(tk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, master=None, load_config =True):
         super().__init__(master)
         self.pack()
         self.master = master
-        
-        self.config = import_config()
+        if load_config ==True:
+            self.config = import_config()
         canvas = tk.Canvas(self.master, width=500, height=1, bg="white")
-#        canvas.pack()
+
         fig, fig2 = EventRelated_BCI4(self.config)
         
         canvas = FigureCanvasTkAgg(fig, self.master)
         canvas.get_tk_widget().pack(side=tk.LEFT, expand=0)
         canvas._tkcanvas.pack(side=tk.LEFT, expand=0)
         canvas.draw()
-
-        canvas = tk.Canvas(self.master, width=100, height=100, bg="green")
-        canvas.pack()
+        
+        self.power = fig2[0]
+        self.freqs = fig2[1]
+        self.time = fig2[2]
+        self.target_chan=0
+       
+        self.pfig = plt.figure(figsize=(10,10))
+        self.ax = self.pfig.add_subplot()
+        self.tfrcanvas = FigureCanvasTkAgg(self.pfig, self.master) 
+        self.tfrcanvas.get_tk_widget().pack(side=tk.RIGHT, expand=0)
+        self.tfrcanvas._tkcanvas.pack(side=tk.RIGHT, expand=0)
+        self.tfrcanvas.draw()
+        
         self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
         self.quit.pack(side="bottom")
         
+        self.pltupdate = tk.Button(self)
+        self.pltupdate["text"] = ">"
+        self.pltupdate["command"] = self.updateP
+        self.pltupdate.pack(side="top")
+        
+        self.pltupdate = tk.Button(self)
+        self.pltupdate["text"] = "<"
+        self.pltupdate["command"] = self.updateM
+        self.pltupdate.pack(side="top")
+
+        self.pltupdate = tk.Button(self)
+        self.pltupdate["text"] = "jump"
+        self.pltupdate["command"] = self.Jump
+        self.pltupdate.pack(side="top")
+        
+        
+        self.chn = tk.Entry(self)
+        self.chn.pack(padx=10, pady=1, anchor=tk.W)
+
+    def plotfunc(self):
+    
+        self.ax.pcolormesh(self.time, self.freqs, self.power[self.target_chan,:,:],vmax=1., vmin=-1., cmap='jet')
+        self.ax.axvline(0,ls='--', lw=2.)
+        self.ax.set_xlabel('time [s]')
+        self.ax.set_ylabel('frequency [Hz]')
+        self.ax.set_title('ch_'+str(self.target_chan+1))
+        
+        self.tfrcanvas.draw()
+        print('draw time-frequency plot: channel ',str(self.target_chan))
+        
+    def updateP(self):
+        self.plotfunc()
+        self.target_chan=self.target_chan+1
+        
+    def updateM(self):
+        self.target_chan=self.target_chan-1
+        self.plotfunc()
+        
+    def Jump(self):
+        self.target_chan = int(self.chn.get())-1
+        self.plotfunc()
+        
+
 root = tk.Tk()
 root.title('BrainSignalAnalyzer')
 root.geometry("400x300")
