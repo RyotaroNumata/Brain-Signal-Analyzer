@@ -8,6 +8,7 @@ Created on Sat Feb  1 19:06:03 2020
 
 from scipy import io
 from glob import glob
+from natsort import  natsorted
 
 class FileIO:
     """
@@ -42,7 +43,7 @@ class FileIO:
             loaded data.
         """        
         
-        dir_list = glob(self.data_path+'*.mat')
+        dir_list = natsorted(glob(self.data_path+'*.mat'))
         inlet=[]
         for i in range(len(dir_list)):
             
