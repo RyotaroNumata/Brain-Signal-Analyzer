@@ -41,6 +41,7 @@ resampled_dg = prep.Rectify(prep.downsample_sig(data['train_dg']), freqs=[1,10],
 # If you want to use your custom dataset included event signal, substitute it to "trigger".
 trigger =prep.CreateTriggerBCI4(data['train_dg'], threshhold=0.5)
 
+#test
 freqs = prep.make_wavalet()
 freqs_range = np.arange(1, 250, 5)
 a =[]
