@@ -9,10 +9,11 @@ from FileIO.fileio import FileIO
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 from mpl_toolkits.axes_grid1.colorbar import colorbar
 from matplotlib.widgets import Slider  # import the Slider widget
-
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import matplotlib.pyplot as plt
 from math import pi
+import tkinter as Tk
 
 
 config = import_config()
@@ -61,7 +62,20 @@ a_min = 0    # the minimial value of the paramater a
 a_max = int(resampled_ecog.shape[0]-2000)  # the maximal value of the paramater a
 a_init = 1   # the value of the parameter a to be used initially, when the graph is created
 
+
+#matplotlib.use('TkAgg')
+
+root = Tk.Tk()
+root.wm_title("Wavelet analysis")
+
+quit_b = Tk.Button(text="QUIT", fg="red", command= root.destroy)
+quit_b.pack(side="bottom")
+
+
 fig = plt.figure(figsize=(7,5))
+canvas = FigureCanvasTkAgg(fig, root)
+canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
+
 
 tf_ax = plt.axes([0.1, 0.3, 0.8, 0.5])
 trig_ax = plt.axes([0.1, 0.15, 0.8, 0.07])
@@ -94,4 +108,4 @@ def update(a):
 
 a_slider.on_changed(update)
 
-plt.show()
+Tk.mainloop()
