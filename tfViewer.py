@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Feb 17 14:41:04 2020
+
+@author: numata
+"""
 
 import numpy as np
 from SignalProcessing.preprocess_signal import Prep_signal
@@ -22,8 +29,7 @@ finger_id = 4
 ## set subject number
 subj_num =0
 
-
-    
+chan =0
 ###### generate instances ######    
 prep = Prep_signal(config=config)
 uti = Utilfunc(config)
@@ -47,6 +53,7 @@ freqs = prep.make_wavalet()
 freqs_range = np.arange(1, 250, 5)
 a =[]
 for ch in range(1):
+    ch = 0
     inlet = np.zeros([len(freqs), resampled_ecog.shape[0]])
     for w in range(len(freqs)):
         
@@ -62,39 +69,44 @@ a_min = 0    # the minimial value of the paramater a
 a_max = int(resampled_ecog.shape[0]-2000)  # the maximal value of the paramater a
 a_init = 1   # the value of the parameter a to be used initially, when the graph is created
 
-
-#matplotlib.use('TkAgg')
-
 root = Tk.Tk()
 root.wm_title("Wavelet analysis")
+root.geometry("700x600")
 
 quit_b = Tk.Button(text="QUIT", fg="red", command= root.destroy)
 quit_b.pack(side="bottom")
-
+change_chan = Tk.Button()
+change_chan["text"] = ">"
+change_chan["command"] = print('test')
+change_chan.pack(side="top")
 
 fig = plt.figure(figsize=(7,5))
 canvas = FigureCanvasTkAgg(fig, root)
 canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
 
-
-tf_ax = plt.axes([0.1, 0.3, 0.8, 0.5])
+tf_ax = plt.axes([0.1, 0.2, 0.8, 0.5])
 trig_ax = plt.axes([0.1, 0.15, 0.8, 0.07])
 slider_ax = plt.axes([0.1, 0.05, 0.8, 0.02])
 
+resampled_ecog = (resampled_ecog-np.mean(resampled_ecog[0:2000,:], axis=0))
 # in plot_ax we plot the function with the initial value of the parameter a
 plt.axes(tf_ax) # select sin_ax
-plt.title('Time-frequency power. Ch '+str(0))
+plt.title('Time-frequency power. Ch '+str(ch+1))
 tf = plt.imshow(resampled_ecog[0:2000,::-1].T, aspect=15)
 plt.yticks(np.arange(0,50,5), freqs_range[::5][::-1])
 
 plt.axes(trig_ax)
-plt.ylim(0,300)
+plt.ylim(0,500)
 plot3, = plt.plot(trigger[0:2000,4], 'k') 
+plot4, = plt.plot(trigger[0:2000,0]*1.5, 'r')
+plot5, = plt.plot(trigger[0:2000,1]*1.8, 'b') 
+plot6, = plt.plot(trigger[0:2000,2]*1.8, 'c')
+plot7, = plt.plot(trigger[0:2000,3]*1.8, 'g') 
 plt.xlim(0, 2000)
 
 # here we create the slider
 a_slider = Slider(slider_ax,      # the axes object containing the slider
-                  'time_sample',            # the name of the slider parameter
+                  'time',            # the name of the slider parameter
                   a_min,          # minimal value of the parameter
                   a_max,          # maximal value of the parameter
                   valinit=a_init  # initial value of the parameter
@@ -103,7 +115,11 @@ a_slider = Slider(slider_ax,      # the axes object containing the slider
 def update(a):
 
     tf.set_data(resampled_ecog[0+int(a):2000+int(a),::-1].T)
-    plot3.set_ydata(trigger[:,1][0+int(a):2000+int(a)])
+    plot3.set_ydata(trigger[:,4][0+int(a):2000+int(a)])
+    plot4.set_ydata(trigger[:,0][0+int(a):2000+int(a)]*1.5)
+    plot5.set_ydata(trigger[:,1][0+int(a):2000+int(a)]*1.8)
+    plot6.set_ydata(trigger[:,2][0+int(a):2000+int(a)]*1.5)
+    plot7.set_ydata(trigger[:,3][0+int(a):2000+int(a)]*1.8)
     fig.canvas.draw_idle()
 
 a_slider.on_changed(update)
