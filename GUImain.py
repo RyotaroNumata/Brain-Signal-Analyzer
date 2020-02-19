@@ -87,10 +87,10 @@ class Application(tk.Frame):
             
     def create_widgets(self):
 
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Run analysis"
-        self.hi_there["command"] = self.runDecoding
-        self.hi_there.pack(side="top")
+        self.Btn = tk.Button(self)
+        self.Btn["text"] = "Run analysis"
+        self.Btn["command"] = self.runDecoding
+        self.Btn.pack(side="top")
 
         self.update = tk.Button(self)
         self.update["text"] = "select feature"
@@ -207,20 +207,20 @@ class Index(tk.Frame):
         self.pack()
         self.Master = master
 
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Event related"
-        self.hi_there["command"] = self.erp
-        self.hi_there.pack(side="top")
+        self.Btn = tk.Button(self)
+        self.Btn["text"] = "Event related"
+        self.Btn["command"] = self.erp
+        self.Btn.pack(side="top")
 
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Time-Frequency"
-        self.hi_there["command"] = self.tfa
-        self.hi_there.pack(side="top")
+        self.Btn = tk.Button(self)
+        self.Btn["text"] = "Time-Frequency"
+        self.Btn["command"] = self.tfa
+        self.Btn.pack(side="top")
 
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Decoding analysis"
-        self.hi_there["command"] = self.decoding
-        self.hi_there.pack(side="top")
+        self.Btn = tk.Button(self)
+        self.Btn["text"] = "Decoding analysis"
+        self.Btn["command"] = self.decoding
+        self.Btn.pack(side="top")
         self.quit = tk.Button(self, text="QUIT", fg="red", command=self.Master.destroy)
         self.quit.pack(side="bottom")
         

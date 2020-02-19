@@ -43,7 +43,7 @@ def EventRelated_BCI4(config):
     ##### create event signals from digit movements #####
     # This function is only for use BCI comp 4. (Dataset no.4)
     # If you want to use your custom dataset included event signal, substitute it to "trigger".
-    trigger =prep.CreateTriggerBCI4(data['train_dg'], threshhold=0.5)
+    trigger =prep.CreateTriggerBCI4(data['train_dg'], threshhold=0.4, gaussian_pram=[300,200])
     event = trigger[:,finger_id][:,np.newaxis].T
     
     ###### create feature Epochs ######

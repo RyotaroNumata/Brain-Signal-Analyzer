@@ -230,8 +230,10 @@ class Prep_signal:
         ----------
         trigger: estimated trigger siganls {array-like}
         """             
-        trigger = self.Rectify(self.downsample_sig(data), freqs=[1,10],btype='band')        
+        trigger = self.Rectify(self.downsample_sig(data), freqs=[1,10],btype='band', gaussian_pram =gaussian_pram)
+#        trigger = np.abs(trigger)        
         trigger[trigger < threshhold] =0
+        trigger = self.GaussianWin2(trigger, param=[450,100])
         trigger[trigger > 0] = self.event_id
         
         return trigger

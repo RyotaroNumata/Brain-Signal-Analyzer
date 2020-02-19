@@ -47,9 +47,11 @@ def wavelet_analysis_p(config):
     
     ##### Preprocess ECoG signals ######
     resampled_ecog = prep.downsample_sig(data['train_data'])
+    tg = prep.downsample_sig(data['train_dg'])
+    trigger =prep.CreateTriggerBCI4(data['train_dg'], threshhold=0.5, gaussian_pram=[200,30])
     
     freqs = prep.make_wavalet()
 
     ret = Parallel(n_jobs=-1)(delayed(wavelet_subfunc)(freqs, resampled_ecog[:,n], uti) for n in range(resampled_ecog.shape[-1]))
 
-    return np.asarray(ret)
+    return np.asarray(ret), tg, trigger
