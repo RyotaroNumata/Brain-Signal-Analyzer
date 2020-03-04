@@ -1,4 +1,4 @@
-Application# Brain-kinematics-decoder
+# Brain-kinematics-decoder
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/RyotaroNumata/Brain-kinematics-decoder/blob/master/LICENSE) <br>
 Brain-kinematics-decoderは，脳表面に留置されたアレイ電極より記録された硬膜下皮質脳波(ECoG)から指先の屈曲進展運動を推定するシンプルなブレインコンピュータフェース(BCI)です．<br>
 

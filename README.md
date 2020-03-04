@@ -1,6 +1,7 @@
-Application# Brain-kinematics-decoder
+# Brain-kinematics-decoder
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/RyotaroNumata/Brain-kinematics-decoder/blob/master/LICENSE) <br>
-A simple brain decoder for kinematic infomation decoding analysis.
+A simple brain decoder for kinematic infomation decoding analysis.<br>
+japanese version README is [here](https://github.com/RyotaroNumata/Brain-kinematics-decoder/blob/master/README_ja.md)
 
 ## Demo
 Decoding finger flextion movement from ECoG signals.<br>
