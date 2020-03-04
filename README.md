@@ -6,6 +6,10 @@ japanese version README is [here](https://github.com/RyotaroNumata/Brain-kinemat
 ## Demo
 Decoding finger flextion movement from ECoG signals.<br>
 The BCI competion Ⅳ dataset is used for this Demo. 
+![eventrelated](https://user-images.githubusercontent.com/60598478/75867436-f8527b00-5e49-11ea-8b41-971995cfa2fb.gif)
+
+![tfviewer](https://user-images.githubusercontent.com/60598478/75867381-deb13380-5e49-11ea-92fa-87c573e9b654.gif)
+
 
 ![Brain-kinematics-decoder](https://user-images.githubusercontent.com/60598478/74128402-70010180-4c20-11ea-825c-846e36d016f9.gif)
 
