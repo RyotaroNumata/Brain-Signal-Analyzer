@@ -34,8 +34,8 @@ class Application(Tk.Frame):
         quit_b.pack(side="bottom")
 #        quit_b.grid(column=0,row=0)
         
-        test = Tk.Button(self.master, text="Drew fig", command= self.plot)
-        test.pack(side="top")
+#        test = Tk.Button(self.master, text
+        
         
         test = Tk.Button(self.master, text=">", command= self.renew_chan)
 #        test.grid(column=1,row=0)
@@ -53,6 +53,7 @@ class Application(Tk.Frame):
         self.fing = 0
         self.ret, self.trig, self.test = wavelet_analysis_p(config=self.config)
         self.ret=self.ret.transpose(0,2,1)
+        self.plot()
         
     def renew_chan(self):
         if self.ch < self.ret.shape[0]-1:
