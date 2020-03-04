@@ -114,6 +114,7 @@ class Application(Tk.Frame):
 #            p=plt.plot(self.trig[0:10000,self.fing]*(1+(i/5)), color=colors[i])
 #            self.trig_plot.append(p)
             
+        
         self.p=plt.plot(self.trig[0:10000,self.fing], color=colors[0])
         self.p2=plt.plot(self.test[0:10000,self.fing], color=colors[1])
 #        self.plot2 = plt.plot(data[0:10000]*1.2, 'r')
