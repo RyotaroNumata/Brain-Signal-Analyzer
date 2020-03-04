@@ -51,7 +51,8 @@ def wavelet_analysis_p(config):
     trigger =prep.CreateTriggerBCI4(data['train_dg'], threshhold=0.5, gaussian_pram=[200,30])
     
     freqs = prep.make_wavalet()
+    print('processing...')
 
     ret = Parallel(n_jobs=-1)(delayed(wavelet_subfunc)(freqs, resampled_ecog[:,n], uti) for n in range(resampled_ecog.shape[-1]))
-
+    print('Done')
     return np.asarray(ret), tg, trigger

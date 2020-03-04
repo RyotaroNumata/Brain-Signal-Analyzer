@@ -12,6 +12,7 @@ from Pipeline import mainPipeline
 from EvReAn import EventRelated_BCI4
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import matplotlib.pyplot as plt
+from wavelet_analysis_class import WaveMain
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -213,7 +214,7 @@ class Index(tk.Frame):
         self.Btn.pack(side="top")
 
         self.Btn = tk.Button(self)
-        self.Btn["text"] = "Time-Frequency"
+        self.Btn["text"] = "Time-Frequency viewer"
         self.Btn["command"] = self.tfa
         self.Btn.pack(side="top")
 
@@ -232,15 +233,19 @@ class Index(tk.Frame):
 
     def tfa(self):
         gui = tk.Tk()
-        gui.title('Decoding anlysis')
-        gui.geometry("400x800")
-        Application(master=gui)
+        gui.title('Wavelet anlysis')
+        gui.geometry("900x700")
+        self.wavelet(frame=gui)
         
     def erp(self):
         gui = tk.Tk()
         gui.title('Event related anlysis')
         gui.geometry("1000x700")
         Subframe(gui)
+    
+    def wavelet(self, frame):
+        print('here')
+        WaveMain(frame)
 
 class Subframe(tk.Frame):
     def __init__(self, master=None, load_config =True):
