@@ -8,6 +8,11 @@ Brain-kinematics-decoderは，脳表面に留置されたアレイ電極より�
 このデモではBCI competion Ⅳより提供されているデータセットを用いています.<br>
 
 
+![eventrelated](https://user-images.githubusercontent.com/60598478/75867436-f8527b00-5e49-11ea-8b41-971995cfa2fb.gif)
+
+![tfviewer](https://user-images.githubusercontent.com/60598478/75867381-deb13380-5e49-11ea-92fa-87c573e9b654.gif)
+
+
 ![Brain-kinematics-decoder](https://user-images.githubusercontent.com/60598478/74128402-70010180-4c20-11ea-825c-846e36d016f9.gif)
 
 ## Major features
